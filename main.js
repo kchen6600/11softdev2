@@ -3,9 +3,6 @@ var bclear = document.getElementById("clear");
 
 var requestID = 0;
 
-var directionx = Math.floor(Math.random() * 10) - 5;
-var directiony = Math.floor(Math.random() * 10) - 5;
-
 var xArray = [];
 var yArray = [];
 
@@ -23,7 +20,8 @@ var draw = function(e){
     r1.setAttribute("stroke", "#FFFFFF");
     r1.setAttribute("fill", "lightsteelblue");
     svg.appendChild(r1);
-	
+	var directionx = Math.floor(Math.random() * 10) - 5;
+	var directiony = Math.floor(Math.random() * 10) - 5;
 	xArray.push(directionx);
 	yArray.push(directiony);
 	posx.push(e.offsetX);
@@ -37,14 +35,14 @@ var animations = function(){
 	for (i = 0; i < svg.childElementCount; i++){
 		
 		if (posy[i] <= 0 || posy[i] + 20 >= 500){
-			directiony = -1 * directiony;
+			yArray[i] = -1 * yArray[i];
 		}
 		if (posx[i] <= 0 || posx[i] + 20 >= 500){
-			directionx = -1 * directionx;
+			xArray[i] = -1 * xArray[i];
 		}
 	
-		posx[i] += directionx;
-		posy[i] += directiony;
+		posx[i] += xArray[i];
+		posy[i] += yArray[i];
 		
 		svg.children[i].setAttribute("x", posx[i]);
 		svg.children[i].setAttribute("y", posy[i]);
@@ -57,6 +55,10 @@ c.addEventListener('click', draw, true);
 
 var clear = function() {
 	clearInterval(requestID);
+	xArray = [];
+	yArray = [];
+	posy = [];
+	posx = [];
     c.innerHTML="";
 };
 
